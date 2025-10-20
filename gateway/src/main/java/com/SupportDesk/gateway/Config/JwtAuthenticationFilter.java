@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter implements GlobalFilter {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
-        // TODO: Validate JWT token (we will implement when auth-service is ready)
+        // TODO: Validate JWT token (will implement when auth-service is ready)
         String token = authHeader.substring(7);
         log.info("Received token: {}", token);
 
