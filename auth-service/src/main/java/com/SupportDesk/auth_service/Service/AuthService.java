@@ -7,6 +7,7 @@ import com.SupportDesk.auth_service.Entity.RoleEntity;
 import com.SupportDesk.auth_service.Entity.UserEntity;
 import com.SupportDesk.auth_service.Repository.RoleRepository;
 import com.SupportDesk.auth_service.Repository.UserRepository;
+import com.SupportDesk.auth_service.Util.JwtUtil;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,10 +21,12 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository) {
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.jwtUtil = jwtUtil;
     }
     public void register(RegisterRequest req) {
         if(userRepository.existsByUserName(req.getUsername())){
@@ -49,6 +52,7 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid username or password");
         }
 
-
+        String token = jwtUtil.generateToken(user.getUsername());
+        return new AuthResponse(token, "Bearer");
     }
 }
