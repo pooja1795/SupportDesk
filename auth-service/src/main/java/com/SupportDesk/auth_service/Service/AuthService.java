@@ -11,11 +11,12 @@ import com.SupportDesk.auth_service.Util.JwtUtil;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.management.relation.Role;
 import java.util.Set;
 
-@Component
+@Service
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -29,7 +30,7 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
     public void register(RegisterRequest req) {
-        if(userRepository.existsByUserName(req.getUsername())){
+        if(userRepository.existsByUsername(req.getUsername())){
             throw new IllegalArgumentException("Username or email already exists");
         }
         RoleEntity userRole = roleRepository.findByName("ROLE_USER")

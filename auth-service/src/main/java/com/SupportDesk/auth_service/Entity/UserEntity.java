@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -16,6 +16,6 @@ public class UserEntity {
     private String email;
     private String password;
     private Boolean enabled = true;
-    private OffsetDateTime createdAt = OffsetDateTime.now();
+    private Date createdAt = new Date();
     private Set<String> roles;
 }

@@ -5,12 +5,12 @@ import com.SupportDesk.auth_service.DTO.LoginRequest;
 import com.SupportDesk.auth_service.DTO.RegisterRequest;
 import com.SupportDesk.auth_service.Service.AuthService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@Component
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -19,14 +19,20 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
         authService.register(registerRequest);
         return ResponseEntity.ok().build();
     }
 
-
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         AuthResponse authResponse = authService.login(loginRequest);
         return ResponseEntity.ok().body(authResponse.toString());
+    }
+
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("pong");
     }
 }
