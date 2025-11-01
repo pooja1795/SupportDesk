@@ -3,7 +3,7 @@ import axiosClient from "../api/axiosClient";
 import { useAuth } from "../context/useAuth";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     //const navigate = useNavigate();
@@ -13,8 +13,8 @@ const Login = () => {
         e.preventDefault();
         setError("");
         try {
-            const res = await axiosClient.post("/api/auth/login", { username: email, password: password });
-            login(email, res.data.token);
+            const res = await axiosClient.post("/api/auth/login", { username: username, password: password });
+            login(username, res.data.token);
            // navigate("/dashboard");
         } catch {
             setError("Invalid credentials");
@@ -36,7 +36,7 @@ const Login = () => {
                             <div className="absolute top-0.5 left-1 bg-whiteMedium rounded-full p-2 flex items-center justify-center text-blue-300">
                                 <i className="fa-solid fa-envelope-open"></i>
                             </div>
-                            <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="text-dullWhite w-80 bg-whiteLight py-2 px-12 rounded-full focus:bg-blackDark focus:outline-none focus:ring focus:ring-neonBlue focus:drop-shadow-lg" type="text" placeholder="Email Address"/>
+                            <input id="email" value={username} onChange={(e) => setUsername(e.target.value)} className="text-dullWhite w-80 bg-whiteLight py-2 px-12 rounded-full focus:bg-blackDark focus:outline-none focus:ring focus:ring-neonBlue focus:drop-shadow-lg" type="text" placeholder="Email Address"/>
                         </div>
 
                         <div className="relative">
