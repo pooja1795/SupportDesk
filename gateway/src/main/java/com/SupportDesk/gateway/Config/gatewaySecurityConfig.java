@@ -13,7 +13,7 @@ public class gatewaySecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // disable CSRF for Gateway
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/api/auth/**").permitAll()
+                        .pathMatchers("/auth/**").permitAll()
                         .anyExchange().authenticated()
                 );
         return http.build();
