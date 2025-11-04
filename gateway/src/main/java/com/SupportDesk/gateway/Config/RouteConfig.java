@@ -9,8 +9,8 @@ public class RouteConfig {
     public RouteLocator coustomRoutes(RouteLocatorBuilder builder) {
         return builder.routes().route("auth-service", r -> r.path("/auth/**")
                                     .uri("lb://auth-service"))
-                                .route("ticket-service", r -> r.path("/api/tickets/**")
-                                     .uri("lb://ticket-service"))
+                                .route("conversation-service", r -> r.path("/conversations/**")
+                                     .uri("lb://conversation-service"))
                                 .build();
     }
 }

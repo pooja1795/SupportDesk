@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axiosClient from "../api/axiosClient";
 import { useAuth } from "../context/useAuth";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    //const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const { login } = useAuth();
 
     const handleSubmit = async (e) => {
@@ -14,11 +16,21 @@ const Login = () => {
         setError("");
         try {
             const res = await axiosClient.post("/auth/login", {username, password });
-            console.log(res.data.accessToken);
-            login(username, res.data.accessToken);
-           // navigate("/dashboard");
+            console.log("Login response:", res.data);
+            const token = res.data.accessToken;
+            const user = res.data.user || { username };
+
+            if (token) {
+                login({ token, user }); // <--- This updates AuthContext + localStorage
+                navigate("/inboxes/assigned", { replace: true }); // go to inbox/dashboard
+            } else {
+                setError("Login failed: token missing from response");
+            }
+
         } catch {
             setError("Invalid credentials");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -47,7 +59,7 @@ const Login = () => {
                             <input id="password" value={password} onChange={(e) => setPassword(e.target.value)} className="text-dullWhite w-80 bg-whiteLight py-2 px-12 rounded-full focus:bg-blackDark focus:outline-none focus:ring focus:ring-neonBlue focus:drop-shadow-lg" type="Password" placeholder="Password"/>
                         </div>
 
-                        <button type="submit" className="bg-gradient-to-r from-blue-400 to-cyan-200 w-80 font-semibold rounded-full p-2">Sign in</button>
+                        <button type="submit" className="bg-gradient-to-r from-blue-400 to-cyan-200 w-80 font-semibold rounded-full p-2">  {loading ? "Logging in..." : "Sign in"}  </button>
                     </form>
                     <div className="text-dullWhite border-t border-whiteLight pt-2 text-sm">
                         <p>Don't have an account?<a href="/Register" className="text-neonBlue cursor-pointer font-semibold">Sign Up</a></p>
