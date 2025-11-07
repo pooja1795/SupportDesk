@@ -14,11 +14,12 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: false,
             },
+            "/conversations": {
+                target: "http://localhost:8080",
+                changeOrigin: true,
+                secure: false,
+            },
         },
-        "/": {
-            target: "http://localhost:8080",
-            changeOrigin: true,
-            secure: false,
-        },
+
     },
 });

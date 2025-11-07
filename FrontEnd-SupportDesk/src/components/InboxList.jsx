@@ -14,7 +14,15 @@ const InboxList = ({ onSelectConversation }) => {
                     { assignee: user?.email, status: "OPEN" },
                     token
                 );
-                setConversations(res.data || []);
+                const data = res.data;
+                const list = Array.isArray(data)
+                    ? data
+                    : Array.isArray(data?.content)
+                        ? data.content
+                        : Array.isArray(data?.conversations)
+                            ? data.conversations
+                            : [];
+                setConversations(list);
             } catch (err) {
                 console.error("Error fetching conversations:", err);
             } finally {

@@ -1,21 +1,21 @@
-import axios from "axios";
+import  axiosClient  from './axiosClient';
 
-const BASE_URL = "http://localhost:8080/conversations";
+const BASE_URL = "/conversations";
 
 export const conversationsAPI = {
     list: (params = {}, token) =>
-        axios.get(BASE_URL, {
+        axiosClient.get(BASE_URL, {
             headers: { Authorization: `Bearer ${token}` },
             params,
         }),
 
     get: (id, token) =>
-        axios.get(`${BASE_URL}/${id}`, {
+        axiosClient.get(`${BASE_URL}/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
         }),
 
     create: (payload, token) =>
-        axios.post(BASE_URL, payload, {
+        axiosClient.post(BASE_URL, payload, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
@@ -24,11 +24,11 @@ export const conversationsAPI = {
 
     messages: {
         list: (conversationId, token) =>
-            axios.get(`${BASE_URL}/${conversationId}/messages`, {
+            axiosClient.get(`${BASE_URL}/${conversationId}/messages`, {
                 headers: { Authorization: `Bearer ${token}` },
             }),
         add: (conversationId, payload, token) =>
-            axios.post(`${BASE_URL}/${conversationId}/messages`, payload, {
+            axiosClient.post(`${BASE_URL}/${conversationId}/messages`, payload, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
